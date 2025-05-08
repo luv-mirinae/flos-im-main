@@ -1,0 +1,20 @@
+services:
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    image: nginx:alpine
+    volumes:
+      - ./www:/usr/share/nginx/html:ro
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./error_pages:/var/html/error:ro
+    networks:
+      - frontend
+    ports:
+      - 127.0.0.1:8080:80
+
+networks:
+  frontend:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: 127.0.0.1
